@@ -4,16 +4,24 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.awt.Component;
+import javax.swing.SwingUtilities;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
-public class BurpExtender implements IBurpExtender {
-    private static final String name = "Collaborator Everywhere";
-    private static final String version = "1.3";
+public class BurpExtender implements IBurpExtender, ITab {
+    private static final String name = "PrivasecRED Collaborator Everywhere";
+    private static final String version = "2.0";
+    private JPanel jPanel;
+    private JSplitPane splitPane;
+
 
     // provides potentially useful info but increases memory usage
     static final boolean SAVE_RESPONSES = false;
 
 
     @Override
+    // extension running code goes here
     public void registerExtenderCallbacks(final IBurpExtenderCallbacks callbacks) {
         new Utilities(callbacks);
         callbacks.setExtensionName(name);
@@ -26,7 +34,54 @@ public class BurpExtender implements IBurpExtender {
 
         callbacks.registerProxyListener(new Injector(collab));
 
+        // Prepare UI
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+
+                Utilities.out("Loading tab UI");
+
+                try {
+                        // initialise the frame component
+                        jPanel = new JPanel();
+
+                        // init SplitPane
+                        //splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+                        //splitPane.setLeftComponent(jPanel);
+                        //splitPane.setRightComponent(jPanel);
+
+
+
+                        // this also loads in the component
+                        callbacks.customizeUiComponent(jPanel);
+                        //callbacks.customizeUiComponent(splitPane);
+
+                        // add the tab to the Burp UI tab list
+                        callbacks.addSuiteTab(BurpExtender.this);
+                        Utilities.out("Loaded tab UI");
+                } catch (Exception e) {
+                        Utilities.err(e.toString());
+                };
+            }
+        });
+
         Utilities.out("Loaded " + name + " v" + version);
+    }
+
+
+    // implement ITab
+    @Override
+    public String getTabCaption() {
+        return "Collaborator Everywhere";
+    }
+
+    @Override
+    public Component getUiComponent()
+    {
+        //return splitPane;
+        return jPanel;
     }
 }
 
@@ -208,6 +263,8 @@ class Correlator {
         String id = collab.generatePayload(false);
         idToRequestID.put(id, requestCode);
         idToType.put(id, type);
+
+        // patch here
         return id+"."+collab.getCollaboratorServerLocation();
     }
 
