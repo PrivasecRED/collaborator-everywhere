@@ -1,45 +1,45 @@
 # Lines starting with # are ignored
-#param,u,http://%s/
-#param,href,http://%s/
-#param,action,http://%s/
-#param,host,%s
-#param,http_host,%s
-#param,email,root@%s
-#param,url,http://%s/
-#param,load,http://%s/
-#param,preview,http://%s/
-#param,target,http://%s/
-#param,proxy,http://%s/
-#param,from,http://%s/
-#param,src,http://%s/
-#param,ref,http://%s/
-#param,referrer,http://%s/
+disabled,param,u,http://%s/
+disabled,param,href,http://%s/
+disabled,param,action,http://%s/
+disabled,param,host,%s
+disabled,param,http_host,%s
+disabled,param,email,root@%s
+disabled,param,url,http://%s/
+disabled,param,load,http://%s/
+disabled,param,preview,http://%s/
+disabled,param,target,http://%s/
+disabled,param,proxy,http://%s/
+disabled,param,from,http://%s/
+disabled,param,src,http://%s/
+disabled,param,ref,http://%s/
+disabled,param,referrer,http://%s/
 # %h is replaced with corresponding Host header
 # Useful in cases like Host, Origin, etc.
-#header,Host,%s:80@%h
-header,Contact,root@%s
-header,From,root@%s
-header,User-Agent,Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36 root@%s
-header,Referer,http://%s/ref
-#header,X-Original-URL,http://%s/
-header,X-Wap-Profile,http://%s/wap.xml
-#header,Profile,http://%s/wap.xml
-#header,X-Arbitrary,http://%s/
-#header,X-HTTP-DestinationURL,http://%s/
-#header,X-Forwarded-Proto,http://%s/
-#header,Origin,http://%s
-#header,X-Forwarded-Host,%s
-#header,X-Forwarded-Server,%s
-#header,X-Host,%s
-#header,Proxy-Host,%s
-#header,Destination,%s
-#header,Proxy,http://%s
-#header,Via,1.1 %s
-header,X-Forwarded-For,spoofed.%s
-header,True-Client-IP,spoofed.%s
-header,Client-IP,spoofed.%s
-header,X-Client-IP,spoofed.%s
-header,X-Real-IP,spoofed.%s
-header,X-Originating-IP,spoofed.%s
-header,CF-Connecting_IP,spoofed.%s
-header,Forwarded,for=spoofed.%s;by=spoofed.%s;host=spoofed.%s
+disabled,header,Host,%s:80@%h
+enabled,header,Contact,root@%s
+enabled,header,From,root@%s
+enabled,header,User-Agent,Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36 root@%s
+enabled,header,Referer,http://%s/ref
+disabled,header,X-Original-URL,http://%s/
+enabled,header,X-Wap-Profile,http://%s/wap.xml
+disabled,header,Profile,http://%s/wap.xml
+disabled,header,X-Arbitrary,http://%s/
+disabled,header,X-HTTP-DestinationURL,http://%s/
+disabled,header,X-Forwarded-Proto,http://%s/
+disabled,header,Origin,http://%s
+disabled,header,X-Forwarded-Host,%s
+disabled,header,X-Forwarded-Server,%s
+disabled,header,X-Host,%s
+disabled,header,Proxy-Host,%s
+disabled,header,Destination,%s
+disabled,header,Proxy,http://%s
+disabled,header,Via,1.1 %s
+enabled,header,X-Forwarded-For,spoofed.%s
+enabled,header,True-Client-IP,spoofed.%s
+enabled,header,Client-IP,spoofed.%s
+enabled,header,X-Client-IP,spoofed.%s
+enabled,header,X-Real-IP,spoofed.%s
+enabled,header,X-Originating-IP,spoofed.%s
+enabled,header,CF-Connecting_IP,spoofed.%s
+enabled,header,Forwarded,for=spoofed.%s;by=spoofed.%s;host=spoofed.%s

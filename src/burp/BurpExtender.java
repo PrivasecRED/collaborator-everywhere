@@ -42,7 +42,6 @@ public class BurpExtender implements IBurpExtender, ITab {
             {
 
                 Utilities.out("Loading tab UI");
-
                 try {
                         // initialise the frame component
                         jPanel = new JPanel();
@@ -301,13 +300,16 @@ class Injector implements IProxyListener {
     Injector(Correlator collab) {
         this.collab = collab;
 
+        // reads Injection payloads from the file here
         Scanner s = new Scanner(getClass().getResourceAsStream("/injections"));
         while (s.hasNextLine()) {
             String injection = s.nextLine();
             if (injection.charAt(0) == '#') {
                 continue;
             }
-            injectionPoints.add(injection.split(",", 3));
+            injectionPoints.add(injection.split(",", 4));
+
+            // TODO: present to UI as well
         }
         s.close();
 
@@ -320,26 +322,34 @@ class Injector implements IProxyListener {
 
         request = Utilities.addOrReplaceHeader(request, "Cache-Control", "no-transform");
 
+        // TODO: load injectionPoints from the array based on UI, instead of array based on file
+
+        Utilities.out("");
+
         for (String[] injection: injectionPoints) {
-            String payload = injection[2].replace("%s", collab.generateCollabId(requestCode, injection[1]));
+            String payload = injection[3].replace("%s", collab.generateCollabId(requestCode, injection[2]));
 	    // replace %h with corresponding Host header (same as with %s for Collaborator)
 	    payload = payload.replace("%h", Utilities.getHeader(request, "Host"));
-            switch ( injection[0] ){
+
+            Utilities.out(injection[0] + " (" + injection[1] + ") - " + injection[2] + " : " + payload);
+
+            switch ( injection[1] ){
                 case "param":
-                    IParameter param = Utilities.helpers.buildParameter(injection[1], payload, IParameter.PARAM_URL);
+                    IParameter param = Utilities.helpers.buildParameter(injection[2], payload, IParameter.PARAM_URL);
                     request = Utilities.helpers.removeParameter(request, param);
                     request = Utilities.helpers.addParameter(request, param);
                     break;
 
                 case "header":
-                    request = Utilities.addOrReplaceHeader(request, injection[1], payload);
+                    request = Utilities.addOrReplaceHeader(request, injection[2], payload);
                     break;
                 default:
-                    Utilities.out("Unrecognised injection type: " + injection[0]);
+                    Utilities.err("Unrecognised injection type: " + injection[1]);
             }
             
         }
 
+        Utilities.out("");
         return request;
     }
 
